@@ -24,18 +24,17 @@ public:
         if(!root) return;
         
         long long curr = root->val;
-        vector<long long> newprev;
         if(curr==target) total++;
         for(int i = 0 ; i < prev.size() ; i++ ){
             if(prev[i]+curr == target) total++;
-            newprev.push_back(prev[i]+curr);
+            prev[i]+=curr;
             //cout<<prev[i]+curr<<" ";
         }
         //cout<<endl;
-        newprev.push_back(curr);
+        prev.push_back(curr);
         
-        helper(root->left , target , newprev , total);
-        helper(root->right , target , newprev , total);
+        helper(root->left , target , prev , total);
+        helper(root->right , target , prev , total);
         
         return;
     }
