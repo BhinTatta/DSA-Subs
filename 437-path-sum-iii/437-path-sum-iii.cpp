@@ -11,11 +11,13 @@
  */
 class Solution {
 public:
+    vector<long long> prev;
+    long long total = 0;
+    
     int pathSum(TreeNode* root, int target) {
         if(!root) return 0;
     
-        vector<long long> prev;
-        long long total = 0;
+        
         helper(root , target , prev , total);
         return total;
     }
@@ -36,6 +38,7 @@ public:
         helper(root->left , target , prev , total);
         helper(root->right , target , prev , total);
         
+        prev.pop_back();
         return;
     }
 };
