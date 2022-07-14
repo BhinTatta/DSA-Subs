@@ -23,7 +23,6 @@ public:
     bool dfs(TreeNode* subRoot , TreeNode* intree){
         if((subRoot && !intree) || (!subRoot && intree)) return false;
         if(!subRoot && !intree) return true;
-        //cout<<subRoot->val <<" "<< intree->val<<endl;
         if(subRoot->val != intree->val) return false;
         
         bool l = dfs(subRoot->left , intree->left);
