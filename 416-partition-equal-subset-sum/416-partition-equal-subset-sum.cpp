@@ -24,8 +24,8 @@ public:
         bool ans;
         
         if(dp[i][sum]!=-1){
-            //dp[i][sum]==1 ? ans = true : ans = false;
-            return dp[i][sum];
+            dp[i][sum]==1 ? ans = true : ans = false;
+            return ans;
         }
         
         if(nums[i] > sum){
