@@ -8,7 +8,7 @@ public:
         int sum = 0;
         for(int i = 0 ; i < n ; i ++){
             int curr = nums[i];
-            int l = 0 , r= n-1;
+            int l = i+1 , r= n-1;
             while(l < r){
                 if(l==i || r==i){
                     l==i ? l++ : r--;
