@@ -21,7 +21,7 @@ public:
                     sum = currsum;
                     close = currdist;
                 }
-                
+                if(currsum==target) break;
                 if(currsum < target) l++;
                 else r--;
             }
