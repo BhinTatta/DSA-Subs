@@ -7,17 +7,12 @@ public:
         int ans = 0;
         mp[0]=1;
         for(int i = 0 ; i < n ; i++){
-            if(i < n)sum+=nums[i];
-            // if(sum-k==0 && !mp[0]){
-            //     mp[0]++;
-            //     ans++;
-            // }
+            sum+=nums[i];
             if(mp[sum-k]){
                 ans += mp[sum-k];
             }
             mp[sum]++;
-        }
-        
+        }        
         return ans;
     }
 };
