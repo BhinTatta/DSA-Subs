@@ -1,42 +1,36 @@
 class Solution {
 public:
-    int n;
+    
     bool canPartition(vector<int>& nums) {
-        n = nums.size();
+        int n = nums.size();
         int sum = 0;
-        vector<vector<int>> dp ( 201 , vector<int> (20002 , -1));
-        for(int i = 0 ; i < n ; i ++ ){
+        for(int i = 0 ; i < n ; i++){
             sum += nums[i];
         }
         if(sum%2==1) return false;
-        sum /= 2;
+        sum = sum/2;
         
-        return helper(nums , sum , 0 , dp);
-    }
-    
-    bool helper(vector<int> &nums , int sum , int  i , vector<vector<int>> &dp){
-        if(i >= n || sum <= 0){
-            bool ans;
-            sum==0 ? ans = true : ans = false;
-            return ans;
+        bool dp[n+1][sum+1];
+        
+        for(int i = 0 ; i <= sum ; i++){
+            dp[0][i]= false;
+        }
+        for(int i = 0 ; i <= n ; i++){
+            dp[i][0]= true;
         }
         
-        bool ans;
-        
-        if(dp[i][sum]!=-1){
-            //dp[i][sum]==1 ? ans = true : ans = false;
-            return dp[i][sum];
+        for(int i = 1 ; i <= n ; i++){
+            for(int j = 1 ; j <= sum ; j++){
+                
+                if(nums[i-1] <= j){
+                    dp[i][j] = dp[i-1][j] || dp[i-1][j - nums[i-1]];
+                }
+                else if(nums[i-1] > j){
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
         }
         
-        if(nums[i] > sum){
-            ans = helper(nums , sum , i+1 , dp); 
-        }
-        else{
-            bool take = helper(nums , sum - nums[i] , i+1 , dp);
-            bool donttake = helper(nums , sum , i+1 , dp);
-            ans = take || donttake;
-        }
-        ans == true ? dp[i][sum] = 1 : dp[i][sum] = 0;
-        return ans;
+        return dp[n][sum];
     }
 };
