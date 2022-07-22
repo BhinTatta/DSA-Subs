@@ -1,39 +1,43 @@
 class Solution {
 public:
-    
-    
-    bool checker( vector<vector<int>> &adj, vector<int> &vis, int course ){
-        if( vis[course]==1 ) return true;
+    bool canFinish(int n, vector<vector<int>>& prereq) {
         
+        vector<vector<int>> adj(n);
         
-        if(vis[course]==0){
-            vis[course]=1;
-            for(auto edge : adj[course]){
-                if(checker( adj , vis , edge )) 
-                    return true;
+        for(auto pair : prereq){
+            adj[pair[0]].push_back( pair[1] );
+        }
+        
+        vector<int> vis(n , 0);
+        
+        for(int i=0 ; i<n ; i++){
+            if(vis[i] == 0){
+                if( dfs( adj , vis , i ) )
+                    return false;
             }
-        }
-        
-        vis[course] = 2;
-        return false;
-        
-    }
-    
-    bool canFinish(int num, vector<vector<int>>& prereq) {
-        vector<vector<int>> adj(num);
-        for(int i = 0 ; i < prereq.size() ; i++){
-            adj[prereq[i][0]].push_back(prereq[i][1]);
-        }
-        
-        vector<int> vis(num , 0 );
-        
-        for(int i = 0 ; i < num ; i++){
-            
-            if(checker( adj , vis , i )) return false;
-            
         }
         
         return true;
     }
-
+    
+    bool dfs(  vector<vector<int>> &adj , vector<int> &vis , int course ){
+        if(vis[course]==2) return true;
+        if(vis[course] == 1) return false;
+        vis[course] = 2;
+        
+        for( auto pre : adj[course]){
+            if( dfs(adj , vis , pre) )
+                return true;
+        }
+        
+        vis[course] = 1;
+        return false;
+    }
 };
+
+
+
+
+
+
+
