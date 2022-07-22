@@ -1,25 +1,25 @@
 class Solution {
 public:
-    int ans = 0;
-    int n;
     int findTargetSumWays(vector<int>& nums, int target) {
-        n = nums.size();
-        vector<vector<int>> dp( n+1 , vector<int> (2002 , -1) );
+        int n = nums.size();
+        int sum = accumulate(nums.begin() , nums.end() , 0);
+        if( abs(target) > sum || (sum+target)%2==1 ) return 0;
         
-        return helper(nums , 0 , 0 , target , dp);
-    }
-    
-    int helper(vector<int>& nums , int i , int sum , int target , vector<vector<int>> &dp){
-        if(i >= n){
-            if(sum==target) return 1;
-            else return 0;
+        sum = (sum + target) / 2;
+        
+        int dp[n+1][sum+1];
+        for(int i = 0 ; i < sum+1 ; i++) dp[0][i] = 0;
+        dp[0][0] = 1;
+        
+        for(int i = 1 ; i < n+1 ; i++){
+            for(int j = 0 ; j < sum+1 ; j++){
+                if(nums[i-1] > j) dp[i][j] = dp[i-1][j];
+                else{
+                    dp[i][j] = dp[i-1][j] + dp[i-1][j - nums[i-1]];
+                }
+            }
         }
         
-        if(dp[i][sum+1000] != -1) return dp[i][sum+1000];
-        
-        int plus = helper(nums , i+1 , sum+nums[i] , target , dp);
-        int minus = helper(nums , i+1 , sum-nums[i] , target , dp);
-        
-        return dp[i][sum+1000] = plus + minus;
+        return dp[n][sum];
     }
 };
