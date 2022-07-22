@@ -7,19 +7,20 @@ public:
         
         sum = (sum + target) / 2;
         
-        int dp[n+1][sum+1];
-        for(int i = 0 ; i < sum+1 ; i++) dp[0][i] = 0;
-        dp[0][0] = 1;
+        vector<int> dp( sum +1 , 0);
+        dp[0] = 1;
         
         for(int i = 1 ; i < n+1 ; i++){
+            vector<int> newdp(sum+1);
             for(int j = 0 ; j < sum+1 ; j++){
-                if(nums[i-1] > j) dp[i][j] = dp[i-1][j];
+                if(nums[i-1] > j) newdp[j] = dp[j];
                 else{
-                    dp[i][j] = dp[i-1][j] + dp[i-1][j - nums[i-1]];
+                    newdp[j] = dp[j] + dp[j - nums[i-1]];
                 }
             }
+            dp = newdp;
         }
         
-        return dp[n][sum];
+        return dp[sum];
     }
 };
