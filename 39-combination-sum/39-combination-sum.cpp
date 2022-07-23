@@ -13,7 +13,7 @@ public:
     }
     
     void helper(vector<int> &nums , vector<vector<int>> &ans, vector<int>temp , int sum , int i){
-        if( i >= n){
+        if( i >= n || sum < 0){
             if(sum==0) ans.push_back(temp);
             return;
         }
