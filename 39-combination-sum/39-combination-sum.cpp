@@ -1,31 +1,31 @@
 class Solution {
 public:
-    int n ;
-    vector<vector<int>> combinationSum(vector<int>& nums, int target) {
-        sort(nums.begin() , nums.end());
-        n = nums.size();
-        int k = target;
-        
-        vector<vector<int>> ans;
-        vector<int>temp;
-        helper(nums , ans , temp , k , 0);
-        return ans;
-    }
-    
-    void helper(vector<int> &nums , vector<vector<int>> &ans, vector<int>temp , int sum , int i){
-        if( i >= n || sum < 0){
-            if(sum==0) ans.push_back(temp);
+    int n;
+    void solver(vector<vector<int>> &ans , vector<int> nums, vector<int>arr , int sum , int idx , int target){
+        if(sum==target){
+            ans.push_back(arr);
             return;
         }
+        if(sum>target || idx > n) return;
         
-        //take
-        if(nums[i] > sum) helper(nums , ans , temp , sum , i+1);
-        else{
-            helper(nums , ans , temp , sum , i+1);
-            temp.push_back(nums[i]);
-            helper(nums , ans , temp , sum - nums[i] , i);
-            temp.pop_back();
-        }
-        return;
+        for(int i = idx ; i < nums.size() ; i++){
+            if(nums[i]+sum <= target){
+                arr.push_back(nums[i]);
+                solver(ans,nums,arr,sum+nums[i] , i , target);
+                arr.pop_back();
+            }
+        }       
+        
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        n = candidates.size();
+        vector<vector<int>> ans;
+        vector<int> arr;
+        int sum = 0;
+        
+        solver(ans , candidates , arr , sum , 0 , target);
+        
+        return ans;
+        
     }
 };
