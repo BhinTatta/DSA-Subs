@@ -2,6 +2,7 @@ class Solution {
 public:
     int n ;
     vector<vector<int>> combinationSum(vector<int>& nums, int target) {
+        sort(nums.begin() , nums.end());
         n = nums.size();
         int k = target;
         
