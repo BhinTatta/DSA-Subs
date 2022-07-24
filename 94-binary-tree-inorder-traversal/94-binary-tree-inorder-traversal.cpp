@@ -20,9 +20,8 @@ public:
             if(temp){
                 st.push(temp);
                 temp = temp->left;
-                continue;
             }
-            if(!temp && !st.empty()){
+            else{
                 TreeNode* curr = st.top();
                 st.pop();
                 ans.push_back(curr->val);
