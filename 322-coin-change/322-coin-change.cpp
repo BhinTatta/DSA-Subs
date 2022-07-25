@@ -15,30 +15,12 @@ public:
                 }
                 else{
                     dont = dp[i-1][j];
-                }
-                
+                }             
                 dp[i][j] = min( take , dont);
             }
         }
+        
         return dp[n][amount]==INT_MAX-1 ? -1 : dp[n][amount]-1;
     }
-    
-    int helper( vector<int> &coins , int amount , int i , int cc , vector<vector<int>> &dp){
-        if( i == n){
-            if(amount == 0) return cc;
-            return INT_MAX;
-        }
-        if(dp[i][amount]!=-1) return dp[i][amount];
-        int take = INT_MAX, dont = INT_MAX;
-        
-        if(coins[i] <= amount ){
-            take = helper(coins , amount - coins[i] , i , cc+1 , dp);
-            dont = helper(coins , amount , i+1 , cc , dp);
-        }
-        else{
-            dont = helper(coins , amount , i+1 , cc , dp);
-        }
-        
-        return dp[i][amount] = min(take,dont);
-    }
+
 };
