@@ -1,32 +1,44 @@
 class Solution {
 public:
-    int n;
-    
+    int n , k;
     int coinChange(vector<int>& coins, int amount) {
         n = coins.size();
-        vector<vector<int>> dp(amount+1 , vector<int>(n+1 ,-1));
-        int ans = helper(coins , amount , dp , 0 , 0);
-        ans > amount ? ans = -1 : ans = ans;
-        return ans;
+        vector<vector<int>> dp( n+1 , vector<int>(amount+1 , INT_MAX-1));
+        dp[0][0]=1;
+        
+        for(int i = 1 ; i < n+1 ; i++){
+            for(int j = 0 ; j < amount+1 ; j++){
+                int take = INT_MAX, dont = INT_MAX;
+                if(coins[i-1]<=j){
+                    take = 1 + dp[i][j-coins[i-1]];
+                    dont = dp[i-1][j];
+                }
+                else{
+                    dont = dp[i-1][j];
+                }
+                
+                dp[i][j] = min( take , dont);
+            }
+        }
+        return dp[n][amount]==INT_MAX-1 ? -1 : dp[n][amount]-1;
     }
     
-    int helper(vector<int>& coins , int amount , vector<vector<int>> &dp , int i , int cc){
-        if(amount < 0 || i >=n) return INT_MAX-1;
-        if(amount == 0) return 0;
+    int helper( vector<int> &coins , int amount , int i , int cc , vector<vector<int>> &dp){
+        if( i == n){
+            if(amount == 0) return cc;
+            return INT_MAX;
+        }
+        if(dp[i][amount]!=-1) return dp[i][amount];
+        int take = INT_MAX, dont = INT_MAX;
         
-        if(dp[amount][i]!=-1) return dp[amount][i];
-        
-        int mini = -1;
-        if(coins[i] > amount){
-            int donttake = helper(coins , amount , dp , i+1 , cc);
-            mini = donttake;
+        if(coins[i] <= amount ){
+            take = helper(coins , amount - coins[i] , i , cc+1 , dp);
+            dont = helper(coins , amount , i+1 , cc , dp);
         }
         else{
-            int take = 1 + helper(coins , amount-coins[i] , dp , i , cc);
-            int donttake = helper(coins , amount , dp , i+1 , cc);
-            dp[amount][i] = mini = min(take , donttake);
+            dont = helper(coins , amount , i+1 , cc , dp);
         }
         
-        return dp[amount][i] = mini;
+        return dp[i][amount] = min(take,dont);
     }
 };
