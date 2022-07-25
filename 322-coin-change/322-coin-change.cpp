@@ -3,8 +3,9 @@ public:
     int n , k;
     int coinChange(vector<int>& coins, int amount) {
         n = coins.size();
-        vector<vector<int>> dp( n+1 , vector<int>(amount+1 , INT_MAX-1));
-        dp[0][0]=1;
+        vector<vector<int>> dp( n+1 , vector<int>(amount+1 , -1));
+        for(int i = 0 ; i < amount+1 ; i++) dp[0][i] = INT_MAX-1;
+        dp[0][0]=0;
         
         for(int i = 1 ; i < n+1 ; i++){
             for(int j = 0 ; j < amount+1 ; j++){
@@ -20,7 +21,7 @@ public:
             }
         }
         
-        return dp[n][amount]==INT_MAX-1 ? -1 : dp[n][amount]-1;
+        return dp[n][amount]==INT_MAX-1 ? -1 : dp[n][amount];
     }
 
 };
