@@ -20,8 +20,8 @@ public:
     void dfs(TreeNode* root , int large){
         if(!root) return;
         if(root->val >= large) ans++;
-        
-        dfs(root->left , max(large , root->val));
-        dfs(root->right , max(large , root->val));
+        large = max(large , root->val);
+        dfs(root->left , large);
+        dfs(root->right , large);
     }
 };
