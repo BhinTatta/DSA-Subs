@@ -1,24 +1,30 @@
 class Solution {
 public:
-    vector<int> findOrder(int N, vector<vector<int>>& P) {
-        vector<vector<int>> G(N);
-        vector<int> ans, indegree(N);
-        for(auto& pre : P)
-            G[pre[1]].push_back(pre[0]),
-            indegree[pre[0]]++;
+    vector<int> findOrder(int n, vector<vector<int>>& prereq) {
+        vector<vector<int>> adj(n);
+        vector<int> indg(n);
+        for(int i = 0 ; i < prereq.size() ; i ++){
+            adj[prereq[i][0]].push_back(prereq[i][1]);
+            indg[prereq[i][1]]++;
+        }
+        queue<int> q;
+        for(int i = 0 ; i < n ; i++ ){
+            if(indg[i]==0) q.push(i);
+        }
         
-        function<void(int)> dfs = [&](int cur) {
-            ans.push_back(cur);                     // take cur course & push it into ordering
-            indegree[cur] = -1;                     // and mark it as visited
-            for(auto nextCourse : G[cur])          
-                if(--indegree[nextCourse] == 0)     // if there's a next course having 0 prequisite remaining,
-                    dfs(nextCourse);                // then we can take it
-        };
-        for(int i = 0; i < N; i++)
-            if(indegree[i] == 0)                    // we can start with courses having no prequisites
-                dfs(i);
-        
-        if(size(ans) == N) return ans;
-        return {};
+        vector<int>ans;
+        while(!q.empty()){
+            int curr = q.front();
+            ans.push_back(curr);
+            q.pop();
+            
+            for(auto it : adj[curr]){
+                indg[it]--;
+                if(indg[it]==0) q.push(it);
+            }
+        }
+        reverse(ans.begin() , ans.end());
+        vector<int> temp;
+        return ans.size()==n ? ans : temp;
     }
 };
