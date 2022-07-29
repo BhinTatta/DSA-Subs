@@ -20,38 +20,24 @@ class Solution {
 public:
     Node* connect(Node* root) {
         if(!root) return root;
-        vector<vector<Node*>> store;
         queue<Node*> q;
         q.push(root);
-        bfs(store,q);
-        int n = store.size();
-        
-        for(int i = 0 ; i < n ; i++){
-            Node* to_point = NULL;
-            for(int j = store[i].size()-1 ; j >=0 ; j--){
-                //cout<<i<<" "<<j<<endl;
-                Node* curr = store[i][j];
-                curr->next = to_point;
-                to_point = curr;
-            }
-        }
-        
+        bfs(q);        
         return root;
     }
     
-    void bfs(vector<vector<Node*>> &store , queue<Node*>q){
+    void bfs(queue<Node*>q){
         if(q.empty()) return;
-        //cout<<"bfs";
-        vector<Node*> level;
         queue<Node*> newq;
+        Node* to_point = NULL;
         while(!q.empty()){
             Node* curr = q.front();
+            curr->next = to_point;
+            to_point = curr;
             q.pop();
-            level.push_back(curr);
-            if(curr->left) newq.push(curr->left);
             if(curr->right) newq.push(curr->right);
+            if(curr->left) newq.push(curr->left);
         }
-        store.push_back(level);
-        bfs(store,newq);
+        bfs(newq);
     }
 };
