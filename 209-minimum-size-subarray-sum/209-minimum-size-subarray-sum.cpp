@@ -5,17 +5,13 @@ public:
         int minlen = INT_MAX;
         int sum = 0;
         int l = 0 , r = 0;
-        while(r < n){
+        for(r = 0 ; r < n ; r++){
             sum += nums[r];
-
             while(l<=r && sum >= target){
                 minlen = min(minlen , r-l+1);
                 sum -= nums[l];
                 l++;
             }
-            
-            r++;
-
         }
         return minlen==INT_MAX ? 0 : minlen;
     }
