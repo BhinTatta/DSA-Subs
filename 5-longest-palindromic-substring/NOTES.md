@@ -1,0 +1,1 @@
+Tried to do this by LCSubstring of S and revserse of S
