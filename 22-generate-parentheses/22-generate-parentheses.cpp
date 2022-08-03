@@ -6,11 +6,12 @@ public:
         maker(store,temp,n-1,n);
         
         vector<string> ans;
-        validate(store,ans);
-        return ans;
+        //validate(store,ans);
+        return store;
     }
     
     void maker(vector<string> &store , string temp , int open , int close){
+        if(close<open) return;
         if(open==0 && close == 0){
             store.push_back(temp);
             return;
@@ -35,7 +36,6 @@ public:
             stack<char> st;
             
             for(char par : s){
-                // check for closing par
                 if( par == ')' ){
                     if(st.empty()){
                         isvalid = false;
