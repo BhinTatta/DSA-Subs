@@ -4,18 +4,16 @@ public:
         vector<string> store;
         string temp = "(";
         maker(store,temp,n-1,n);
-        
-        vector<string> ans;
-        //validate(store,ans);
         return store;
     }
     
     void maker(vector<string> &store , string temp , int open , int close){
-        if(close<open) return;
+        if(close<open) return; // if closing brackets are less than opening, return;
         if(open==0 && close == 0){
             store.push_back(temp);
             return;
         }
+        
         
         if(open > 0){
             temp.push_back('(');
@@ -30,23 +28,4 @@ public:
         
     }
     
-    void validate(vector<string> &store , vector<string> &ans){        
-        for(string s : store){
-            bool isvalid = true;
-            stack<char> st;
-            
-            for(char par : s){
-                if( par == ')' ){
-                    if(st.empty()){
-                        isvalid = false;
-                        break;
-                    }
-                    else st.pop();
-                }
-                else st.push(par);
-            }
-            
-            if(isvalid && st.empty()) ans.push_back(s);
-        }
-    }
 };
