@@ -10,6 +10,7 @@
 
 class Solution {
 public:
+    bool flag = false;
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         
         int pval = p->val;
@@ -22,6 +23,7 @@ public:
     }
     
     TreeNode* helper(TreeNode* root , int pval , int qval){
+        if(flag) return nullptr;
         if(!root) return nullptr;
         
         int currval = root->val;
@@ -32,7 +34,7 @@ public:
         
         if(pval < currval &&  qval < currval) ans = helper(root->left , pval , qval);
         if(pval > currval && qval > currval) ans = helper(root->right , pval , qval);
-        
+        if(ans) flag = true;
         return ans;
     }
 };
