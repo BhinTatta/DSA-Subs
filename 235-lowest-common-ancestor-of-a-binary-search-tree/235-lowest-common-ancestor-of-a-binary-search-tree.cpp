@@ -10,31 +10,30 @@
 
 class Solution {
 public:
-    bool flag = false;
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        
-        int pval = p->val;
-        int qval = q->val;
-        int temp = pval;
-        pval = min(pval , qval);
-        qval = max(temp , qval);
-        
-        return helper(root , pval , qval);
+        TreeNode* ans = nullptr;
+        TreeNode* temp;
+        if(p->val > q->val){
+            temp = p;
+            p = q;
+            q = temp;
+        }
+        helper(root,p->val,q->val,ans);
+        return ans;
     }
     
-    TreeNode* helper(TreeNode* root , int pval , int qval){
-        if(flag) return nullptr;
-        if(!root) return nullptr;
+    void helper(TreeNode* root, int p, int q, TreeNode* &ans){
+        if(!root || ans!=nullptr) return;
         
-        int currval = root->val;
+        bool left , right;
         
-        if(pval <= currval && qval >= currval) return root;
-        
-        TreeNode* ans;
-        
-        if(pval < currval &&  qval < currval) ans = helper(root->left , pval , qval);
-        if(pval > currval && qval > currval) ans = helper(root->right , pval , qval);
-        if(ans) flag = true;
-        return ans;
+        if(root->val>=p && root->val<=q){
+            ans = root;
+            return;
+        } 
+        else{
+            helper(root->left , p ,q ,ans);
+            helper(root->right , p ,q,ans);
+        }
     }
 };
