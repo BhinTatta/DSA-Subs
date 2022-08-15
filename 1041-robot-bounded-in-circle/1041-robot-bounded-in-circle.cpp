@@ -14,7 +14,7 @@ public:
         
         if(x2==0) y2 < 0 ?  slope2 = INT_MIN : slope2 = INT_MAX;
         else slope2 = (y2-0)/(x2-0);
-        cout<<slope1<<" "<<slope2<<endl;
+
         if(x1==x2 && y1==y2 || (x2==0 && y2==0)) return true;
         if(slope1==slope2) return false;
         return true;
@@ -39,6 +39,6 @@ public:
                 dir = (dir+1)%4;
             }
         }
-        cout<<x1 <<" "<<y1<<endl;
+
     }
 };
