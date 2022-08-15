@@ -3,21 +3,9 @@ public:
     bool isRobotBounded(string inst) {
         int dir = 0;
         double x1 = 0 , y1 = 0;
-        mover(inst , x1 , y1 , dir);
-        
-        double x2 = x1 , y2 = y1;
-        mover(inst , x2 , y2 , dir);
-        
-        double slope1 , slope2;
-        if(x1==0) y1 < 0 ?  slope1 = INT_MIN : slope1 = INT_MAX;
-        else slope1 = y1/x1;
-        
-        if(x2==0) y2 < 0 ?  slope2 = INT_MIN : slope2 = INT_MAX;
-        else slope2 = (y2-0)/(x2-0);
-
-        if(x1==x2 && y1==y2 || (x2==0 && y2==0)) return true;
-        if(slope1==slope2) return false;
-        return true;
+        for(int i = 0 ; i < 4 ; i++ ) mover(inst , x1 , y1 , dir);
+        return (x1==0 && y1==0);
+    
     }
     
     void mover(string &s , double &x1 , double &y1 , int &dir){
