@@ -3,20 +3,26 @@ public:
     int jump(vector<int>& nums) {
         int n = nums.size();
         if(n==1) return 0;
-        int jumps = 0;
-        int l = 0 , r = 0;
+        int ans = 1;
+        int i = 0;
         
-        while(r < n-1){
+        while(i<n-1){
+            int len = nums[i];
+            if(i+len >= n-1) break;
             int reach = 0;
-            for(int i = l; i <= r; i++){
-                reach = max(reach , i+nums[i]);
+            int pos = 0;
+            for(int j = 1 ; j <= len ; j++){
+                if(j+i < n){
+                    if(nums[j+i]+j > reach){
+                        reach = nums[j+i] + j;
+                        pos = i+j;
+                    }
+                }
             }
-            l = r+1;
-            r = reach;
-            jumps++;
+            ans++;
+            if(reach >= n-1) break;
+            i = pos;        
         }
-        
-        return jumps;
+        return ans;
     }
-
 };
