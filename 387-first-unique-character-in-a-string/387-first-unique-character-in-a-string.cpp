@@ -1,10 +1,14 @@
 class Solution {
 public:
     int firstUniqChar(string s) {
-        unordered_map<char,int> mp;
-        for(char x : s) mp[x]++;
+        int mp[26];
+        memset(mp , 0 ,sizeof(mp));
+        for(char x : s){
+            int pos = x-'a';
+            mp[pos]++;
+        }
         for(int i = 0 ; i < s.length() ; i++){
-            char curr = s[i];
+            int curr = s[i]-'a';
             if(mp[curr]==1) return i;
         }
         return -1;
