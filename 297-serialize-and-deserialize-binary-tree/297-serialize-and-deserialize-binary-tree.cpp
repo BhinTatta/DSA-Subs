@@ -31,7 +31,7 @@ public:
             }
         
         //str.pop_back();
-        //cout<<str<<endl;
+        cout<<str<<endl;
         return str;
     
     }
