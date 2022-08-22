@@ -2,14 +2,13 @@ class Solution {
 public:
     bool canVisitAllRooms(vector<vector<int>>& rooms) {
         int n = rooms.size();
-        unordered_map<int,int> keys;
-        vector<int> vis(n,0);
+        int vis[n];
+        memset(vis , 0 , sizeof(vis));
         vis[0]=1;
         queue<int> q;
         for(int i : rooms[0]){
             q.push(i);
-        }
-        
+        }        
         while(!q.empty()){
             int size = q.size();
             while(size-->0){
