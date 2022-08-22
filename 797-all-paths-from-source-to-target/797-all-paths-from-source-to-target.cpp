@@ -12,8 +12,7 @@ public:
         if(node == n-1){
             ans.push_back(temp);
             return;
-        }
-        
+        }        
         for(auto it : graph[node]){
             temp.push_back(it);
             dfs(graph , ans, temp, n , it);
