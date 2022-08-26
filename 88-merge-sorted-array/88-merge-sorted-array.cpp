@@ -6,23 +6,26 @@ public:
             nums1=nums2;
             return;
         }
-        int a[m];
-        for(int i = 0 ; i < m ; i++) a[i]=nums1[i];
-        int i = 0 , j = 0 , it = 0;
-        while(i<m || j<n){
-            int ele1 = INT_MAX , ele2 = INT_MAX;
-            if(i<m) ele1 = a[i];
-            if(j<n) ele2 = nums2[j];
-            
-            if(ele1<ele2){
-                nums1[it] = ele1;
-                i++;
+        
+        int i = m-1, j = n-1 , k = m+n-1;
+        
+        while(i>=0 && j>=0){
+            if(nums1[i] > nums2[j]){
+                nums1[k] = nums1[i];
+                k--;
+                i--;
             }
             else{
-                nums1[it] = ele2;
-                j++;
+                nums1[k] = nums2[j];
+                k--;
+                j--;
             }
-            it++;
+        }
+        
+        while(j>=0){
+            nums1[k] = nums2[j];
+            k--;
+            j--;
         }
     }
 };
