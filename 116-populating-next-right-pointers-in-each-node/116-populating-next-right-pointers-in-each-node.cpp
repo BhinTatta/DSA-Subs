@@ -19,28 +19,15 @@ public:
 class Solution {
 public:
     Node* connect(Node* root) {
-        if(!root) return nullptr;
-        queue<Node*> q;
-        q.push(root);
-        helper(q);
+        if(!root) return root;
+        
+        if(root->left) root->left->next = root->right;
+        if(root->right && root->next) root->right->next = root->next->left;
+        connect(root->left);
+        connect(root->right);
+        
         return root;
     }
-    
-    void helper(queue<Node*> q){
-        if(q.empty()) return;
-        queue<Node*> newq;
-        Node* prev = nullptr;
-        while(!q.empty()){
-            Node* curr = q.front();
-            q.pop();
-            curr->next = prev;
-            prev = curr;
-            if(curr->right != nullptr) newq.push(curr->right);
-            if(curr->left != nullptr) newq.push(curr->left);
-        }
-        helper(newq);
-    }
-    
     
 };
 
