@@ -2,33 +2,41 @@ class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         sort(nums.begin() , nums.end());
-        set<vector<int>> ans;
+        vector<vector<int>> ans;
         int n = nums.size();
-        unordered_map<int , vector<int>> mp;
-        for(int i = 0 ; i < nums.size() ; i++){
-            mp[nums[i]].push_back(i);
-        }
-        unordered_map<int,int> imap;
-        for(int i = 0 ; i < n-2 ; i++){ 
-            if(imap[nums[i]]) continue;
-            imap[nums[i]]++;
-            for(int  j = i+1 ; j < n-1 ; j++){  
-               bool flag = false;
-               int req = -1 * (nums[i]+nums[j]);
-                if(mp.find(req)!= mp.end()){
-                    for(auto it : mp[req]){
-                        if(it > i && it > j){
-                            ans.insert({ nums[i],nums[j],nums[it] });
-                            break;                           
-                        }
-                    }
-                }
+        if(nums[0]>0) return ans;
+        
+        int i = 0;
+        while(i < n-2){
+            int curr = nums[i];
+            if(curr>0){
+                i++;
+                break;
             }           
+            int low = i+1, high = n-1;
+            int req = -curr;
+            while(low<high){  
+                //cout<<curr<<" "<<nums[low]<< " "<<nums[high]<<endl;
+                int sum = nums[low] + nums[high];
+                if(sum == req){
+                    ans.push_back({curr,nums[low],nums[high]});
+                    high--;
+                    while(high>low && nums[high]==nums[high+1]) high--;
+                    low++;
+                    while(low<high && nums[low]==nums[low-1]) low++;
+                }
+                else if(sum<req){
+                    low++;
+                    while(low<high && nums[low]==nums[low-1]) low++;
+                }
+                else{
+                    high--;
+                    while(high>low && nums[high]==nums[high+1]) high--;
+                }
+            }
+            i++;
+            while(i<n-2 && nums[i]==curr) i++;
         }
-       vector<vector<int>> answer;
-        for(auto it : ans){
-            answer.push_back(it);
-        }
-        return answer;
+        return ans;
     }
 };
