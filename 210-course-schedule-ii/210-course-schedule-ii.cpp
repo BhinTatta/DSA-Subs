@@ -1,29 +1,32 @@
 class Solution {
 public:
-    vector<int>ans;
-
-    vector<int> findOrder(int n, vector<vector<int>>& prereq) {
-        vector<vector<int>> adj(n);
-        for(int i = 0 ; i < prereq.size() ; i ++){
-            adj[prereq[i][0]].push_back(prereq[i][1]);
+    vector<int> findOrder(int num, vector<vector<int>>& prereq) {
+        vector<vector<int>> adj(num);
+        vector<int> indeg(num,0);
+        for(auto pair : prereq){
+            adj[pair[0]].push_back(pair[1]);
+            indeg[pair[1]]++;
         }
-        vector<int> vis(n,0);
-        for(int i = 0 ; i < n ; i++ ){
-            if(vis[i]==0) dfs(adj , vis , i);
+        
+        queue<int> q;
+        for(int i = 0 ; i < num ; i++){
+            if(indeg[i]==0) q.push(i);
         }
-
-        vector<int> temp;
-        return ans.size()==n ? ans : temp;
-    }
-    
-    void dfs(vector<vector<int>> &adj , vector<int> &vis , int i){
-        if(vis[i]==2) return;
-        vis[i] = 1;   
-        for(auto it : adj[i]){
-            if(vis[it]==1) return;
-            if(vis[it]==0) dfs(adj , vis , it);
-        }  
-        vis[i]=2;
-        ans.push_back(i);
+        
+        vector<int>ans;
+        
+        while(!q.empty()){
+            auto curr = q.front();
+            q.pop();
+            ans.push_back(curr);
+            for(auto course : adj[curr]){
+                indeg[course]--;
+                if(indeg[course]==0) q.push(course);
+            }
+        }
+        
+        reverse(ans.begin() , ans.end());
+        if(ans.size() < num) return {};
+        return ans;
     }
 };
