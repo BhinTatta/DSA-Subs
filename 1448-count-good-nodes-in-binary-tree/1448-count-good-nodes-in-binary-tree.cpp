@@ -11,20 +11,20 @@
  */
 class Solution {
 public:
-    
+    int ans = 0;
     int goodNodes(TreeNode* root) {
-        return dfs(root,INT_MIN);       
+        dfs(root,INT_MIN);  
+        return ans;
     }
     
-    int dfs(TreeNode* root , int large){
-        if(!root) return 0;
+    void dfs(TreeNode* root , int large){
+        if(!root) return;
         if(root->val >= large){
-            large = max(large , root->val);
-            return 1 + dfs(root->left , large) + dfs(root->right , large);
+           ans++;
         }
-        else{
-            return dfs(root->left , large) + dfs(root->right , large);
-        }
-        return 0;
+        large = max(large , root->val);
+        dfs(root->left , large);
+        dfs(root->right , large);
+        
     }
 };
