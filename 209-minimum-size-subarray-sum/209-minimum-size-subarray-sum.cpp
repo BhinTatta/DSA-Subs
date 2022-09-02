@@ -3,24 +3,19 @@ public:
     int minSubArrayLen(int k, vector<int>& nums) {
         int sum = 0;
         int n = nums.size();
-        // int dp[n];
-        // memset(dp,0,sizeof(dp));
-        // for(int i = 0 ; i < n ; i++) dp[i]=sum+nums[i]; sum = dp[i];
+        vector<int>dp(n+1,0);
         
-        int l = 0 , r = 0;
-        int ans = INT_MAX;
-        sum = 0;
-        while(r<n){
-            sum+=nums[r];        
-            if(sum>=k){     
-                ans = min(ans, r-l+1);
-                while(l<r && sum>=k){
-                    sum -= nums[l];
-                    l++;
-                    if(sum>=k) ans = min(ans, r-l+1);
-                }
-            }
-            r++;
+        for(int i = 1 ; i <= n ; i++){
+            dp[i] = sum + nums[i-1] ;
+            sum = dp[i];
+        }
+        
+        int ans = INT_MAX, i = n;
+        while(i>0){
+            if(dp[i]<k) break;
+            int j = upper_bound(dp.begin() , dp.end() , dp[i]-k) - dp.begin();
+            ans  = min(ans , i-j+1);
+            i--;
         }
         return ans==INT_MAX?0:ans;
     }
