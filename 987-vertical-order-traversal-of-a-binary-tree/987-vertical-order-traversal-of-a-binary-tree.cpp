@@ -15,7 +15,9 @@ public:
         if(q.empty()) return;
         int qsize = q.size();
         map<int , vector<int>> mp2;
+        //vector<int> temp;
         for(int i = 0 ; i < qsize ; i++){
+            //Node* curr = q.front();
             TreeNode* currnode = q.front().first;
             int level = q.front().second;
             q.pop();
@@ -41,7 +43,6 @@ public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
         map<int , vector<int>> mp;
         queue<pair<TreeNode*,int>> q;
-        vector<int> ans;
         vector<vector<int>> ans2;
         if(!root) return ans2;
         q.push(make_pair(root , 0));
