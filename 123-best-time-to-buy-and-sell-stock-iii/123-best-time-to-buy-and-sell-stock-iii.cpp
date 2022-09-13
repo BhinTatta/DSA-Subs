@@ -1,28 +1,29 @@
 class Solution {
 public:
-    int dp[100001][2][2];
-    
     int maxProfit(vector<int>& nums) {
-        memset(dp,-1,sizeof(dp));
-        return helper(nums , 0 , 0 , false);
-    }
-    
-    int helper(vector<int> &nums , int i , int trans , bool state){
-        if(i>=nums.size() || trans==2) return 0;
+        int n = nums.size();
+        if(n==1) return 0;
         
-        if (dp[i][trans][state]!=-1) return dp[i][trans][state];
+        vector<int> left(n) , right(n);
+        left[0] = 0;
+        right[n-1] = 0;
         
-        int buy = 0 , sell = 0 , dont = 0;
-        if(state){
-            sell = helper(nums , i+1 , trans+1 , !state) + nums[i];
-            dont = helper(nums , i+1 , trans , state);
-        }
-        else{
-            buy = helper(nums , i+1 , trans , !state) - nums[i];
-            dont = helper(nums , i+1 , trans , state);
+        int minleft = nums[0];
+        for(int i = 1; i < n ; i++){
+            minleft = min(minleft , nums[i]);
+            left[i] = max(left[i-1]  , nums[i]-minleft);
         }
         
-        return dp[i][trans][state] = max(dont , max(buy,sell));
+        int maxright = nums[n-1];
+        for(int i = n-2 ; i >= 0 ; i--){
+            maxright = max(maxright , nums[i]);
+            right[i] = max(right[i+1] , maxright - nums[i]);
+        }
         
+        int ans = 0;
+        for(int i = 0 ; i < n ; i ++){            
+            ans = max(ans , right[i]+left[i]);
+        }
+        return ans;
     }
 };
