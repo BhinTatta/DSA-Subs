@@ -29,6 +29,7 @@ public:
         
         if(!root->left && !root->right){
             if(ispalind(mp)) ans++;
+            return;
         }
         
         helper(root->left , mp);
