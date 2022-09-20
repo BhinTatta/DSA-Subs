@@ -1,26 +1,30 @@
 class Solution {
 public:
+    
+    bool okay(vector<int> &nums){
+        for(auto i : nums) if(i>1) return false;
+        return true;
+    }
+    
     int lengthOfLongestSubstring(string s) {
         int n = s.length();
-        if(n==1 || n==0) return n;
-        unordered_map<char , int> mp;
-        int maxi = 0;
+        int ans = 0;
+        vector<int> mp(300,0);
         
-        int r = 0 , l = 0;
-        
-        while(r <= n){
-            maxi = max(maxi , r-l+1);
-            char curr = s[r];
-            if(mp.find(curr)!=mp.end() && mp[curr]>=l){
-                l = mp[curr]+1;
-                mp[curr] = r;
+        int l = 0, r = 0;
+        while(r<n){
+            int pos = s[r];
+            mp[pos]++;
+            while(l<r && !okay(mp)){
+                int lpos = s[l];
+                mp[lpos]--;
+                l++;
             }
-            else{
-                mp[curr]=r;
-            }
-            //cout<<s[l] <<" - "<<s[r]<< " "<<"(" << l <<"-"<<r<<")"<<endl;
+            ans = max(ans , r-l+1);
             r++;
         }
-        return maxi-1;
+        
+        return ans;
+
     }
 };
