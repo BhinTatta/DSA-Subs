@@ -1,29 +1,26 @@
 class Solution {
 public:
-    int dp[5001][2];
-    int maxProfit(vector<int>& prices) {
-        memset(dp,-1,sizeof(dp));
-        return helper(prices , 0 , false);
-    }
-    
-    int helper(vector<int>&nums , int i , bool state){
-        if(i >= nums.size()) return 0;
-        
-        if(dp[i][state]!=-1) return dp[i][state];
-        
-        int ans = 0;
-        
-        if(state){
-            int sell = helper(nums,i+2,!state) + nums[i];
-            int dont = helper(nums,i+1,state);
-            ans = max(sell , dont);
-        }
-        else{
-            int buy = helper(nums,i+1,!state) - nums[i];
-            int dont = helper(nums,i+1,state);
-            ans = max(buy,dont);
+    int dp[5005][2];
+    int maxProfit(vector<int>& nums) {
+        memset(dp,0,sizeof(dp));
+        int n = nums.size();
+        for(int i = n-1 ; i >= 0 ; i--){
+            for(int j = 0 ; j <= 1 ; j++){
+                if(j==1){
+                    int sell = dp[i+2][0] + nums[i];
+                    int dont = dp[i+1][1];
+                    dp[i][j] = max(sell , dont); 
+                }
+                else{
+                    int buy = dp[i+1][1] - nums[i];
+                    int dont = dp[i+1][0];
+                    dp[i][j] = max(buy,dont);
+                }
+            }
         }
         
-        return dp[i][state] = ans;
+        
+        return dp[0][0];
     }
+
 };
