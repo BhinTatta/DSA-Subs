@@ -1,26 +1,29 @@
 class Solution {
 public:
+    int dp[5001][2];
     int maxProfit(vector<int>& prices) {
-        int n = prices.size();
-        vector<vector<int>> dp(n+1 , vector<int>(2,-1));
-        return trade(prices , 0 , true , dp);
+        memset(dp,-1,sizeof(dp));
+        return helper(prices , 0 , false);
     }
     
-    int trade(vector<int>&prices , int i , bool buy , vector<vector<int>> &dp){
-        if(i >= prices.size()) return 0;
+    int helper(vector<int>&nums , int i , bool state){
+        if(i >= nums.size()) return 0;
         
-        if(dp[i][buy]!=-1) return dp[i][buy];
+        if(dp[i][state]!=-1) return dp[i][state];
         
-        int notrade = trade(prices , i+1 , buy , dp);
+        int ans = 0;
         
-        int dotrade;
-        if(buy){
-            dotrade = -prices[i] + trade(prices , i+1 , !buy , dp);
+        if(state){
+            int sell = helper(nums,i+2,!state) + nums[i];
+            int dont = helper(nums,i+1,state);
+            ans = max(sell , dont);
         }
-        else if(!buy){
-            dotrade = prices[i] + trade(prices , i+2 , !buy , dp);
+        else{
+            int buy = helper(nums,i+1,!state) - nums[i];
+            int dont = helper(nums,i+1,state);
+            ans = max(buy,dont);
         }
         
-        return dp[i][buy] = max(dotrade,notrade);
+        return dp[i][state] = ans;
     }
 };
