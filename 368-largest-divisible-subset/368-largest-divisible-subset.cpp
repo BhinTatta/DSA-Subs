@@ -1,30 +1,35 @@
 class Solution {
-private:
-    unordered_map<int,vector<int>> mp;
-public:    
+public:
     vector<int> largestDivisibleSubset(vector<int>& nums) {
         sort(nums.begin() , nums.end());
-        vector<int> ans;        
-        for(int i = 0 ; i < nums.size() ; i++){
-            auto it = helper(nums,i);
-            if(it.size()>ans.size()) ans = it;
-        }      
-        return ans;
-    }
-    
-    vector<int> helper(vector<int>&nums , int i){
-        if(i>=nums.size()) return {};
-        if(mp.count(i)) return mp[i];     
-        vector<int> curr;
-        
-        for(int j = i+1 ; j < nums.size() ; j++){
-            if(nums[j]%nums[i]!=0) continue;
-            
-            vector<int> temp = helper(nums,j);
-            if(temp.size() > curr.size()) curr = temp;
+        int n = nums.size();
+        int dp[n];
+        int hash[n];
+        for(int i = 0 ; i < n ; i++){
+            dp[i] = 1;
+            hash[i] = i;
         }
-        mp[i] = curr;
-        mp[i].push_back(nums[i]);
-        return mp[i];
+        
+        int ans = 0, pos = 0;
+        for(int i = 0 ; i < n ; i ++){
+            for(int j = 0 ; j < i ; j++){
+                if(nums[i]%nums[j] == 0 && dp[i]<dp[j]+1){
+                    dp[i] = dp[j] + 1;
+                    hash[i] = j;
+                }
+            }
+            if(dp[i]>ans){
+                ans = dp[i];
+                pos = i;
+            }
+        }
+        
+        vector<int>vec;
+        for(int i = 0 ; i < ans ; i++){
+            vec.push_back( nums[pos] );
+            pos = hash[pos];
+        }
+        
+        return vec;
     }
 };
