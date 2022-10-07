@@ -3,25 +3,28 @@ public:
     int n;
     int dp[501][501];
     int maxCoins(vector<int>& arr) {
-        memset(dp,-1,sizeof(dp));
+        memset(dp,0,sizeof(dp));
         n = arr.size();
         arr.insert(arr.begin() , 1);
         arr.push_back(1);
-        return helper(arr,1,n);
-    }
-    
-    int helper(vector<int>&nums , int i , int j){
-        if(i>j) return 0;
-        if(i==j){
-            return nums[i]*nums[i-1]*nums[i+1];          
-        };
-        if(dp[i][j]!=-1) return dp[i][j];
-        int maxi = 0;
-        for(int k = i ; k <= j ; k++){
-            int curr = nums[k]*nums[i-1]*nums[j+1];
-            int cost = helper(nums,i,k-1)+helper(nums,k+1,j)+curr;
-            maxi = max(cost,maxi);           
+        
+        for(int i = n ; i >= 1 ; i--){
+            for(int j = 1 ; j <= n ; j++){
+                if(i>j) continue;
+                if(i==j) dp[i][j] = arr[i]*arr[i-1]*arr[i+1];
+                else{
+                    int maxi = 0;
+                    for(int k = i ; k <= j ; k++){
+                        int curr = arr[k]*arr[i-1]*arr[j+1];
+                        int cost = dp[i][k-1] + dp[k+1][j] +curr;
+                        maxi = max(cost,maxi);           
+                    }
+                    dp[i][j] = maxi;
+                }
+            }
         }
-        return dp[i][j] = maxi;
+        
+        return dp[1][n];
     }
+
 };
