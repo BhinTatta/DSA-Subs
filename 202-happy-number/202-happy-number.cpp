@@ -1,28 +1,29 @@
 class Solution {
 public:
-    bool isHappy(int n) {
-        long long x = n;
-        unordered_map<long long, long> mp;
-        
-        return helper(x , mp);
-
+    int convert(int n){
+        long long int ans = 0;
+        while(n){
+            int dig = n%10;
+            n /= 10;
+            ans += pow(dig,2);
+        }
+        return ans;
     }
     
-    bool helper(long long n , unordered_map<long long , long> &mp){
+    
+    bool isHappy(int n) {
+        long long int a = n, b = n;
+        bool flag = true;
         
-        if(n == 1) return true;
-        
-        
-        
-        long long newnum = 0;
-        while(n > 0){
-            newnum +=  (n%10 )*(n%10 );
-            n /= 10;
+        while(a!=1 && b!=1 && (flag || a!=b)){
+            if(a==n && b==n) flag = false;
+            a = convert(a);
+            b = convert(b);
+            b = convert(b);
         }
-        //cout<<newnum<<endl;
-        if( mp[newnum] >= 1 ) return false;
-        mp[newnum]++;
         
-        return helper(newnum , mp);
+        if(a==1 || b==1) return true;
+        return 0;
+        
     }
 };
