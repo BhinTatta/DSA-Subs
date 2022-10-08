@@ -1,19 +1,24 @@
 class Solution {
 public:
-    char digtochar(int x){
-        if(x<10) return (char) ('0'+x);
-        else return (char) ('a' + (x-10));
-    }
-    string toHex(int n) {
-        if(n==0) return "0";
-        unsigned int num = n;
-        //cout<<num;
-        string res;
-        while(num){
-            res.push_back(digtochar(num%16));
-            num/=16;
+    string toHex(int num) {
+        if(num == 0){
+            return "0";
         }
-        reverse(res.begin(), res.end());
-        return res;
+        unsigned int num1 = num; 
+        string hex = "";
+        int base = 16;
+        int rem;
+        while(num1 > 0){
+            rem = num1 % base;
+            if(rem < 10){
+                hex += ('0' + (rem));
+            }else{
+                hex += ('a' + (rem%10));
+            }
+            num1 = num1 / base;
+        }
+		reverse(hex.begin(), hex.end()); 
+		
+        return hex;
     }
 };
