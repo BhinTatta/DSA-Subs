@@ -11,21 +11,25 @@
  */
 class Solution {
 public:
+    unordered_map<int,int> mp;
+    bool flag = false;
+    
     bool findTarget(TreeNode* root, int k) {
-        unordered_map<int , int > mp;
-        return helper(root , k , mp);
+        return helper(root , k);
     }
     
-    bool helper(TreeNode* root , int k , unordered_map<int , int> &mp){
-        if(!root) return false;
+    bool helper(TreeNode* root , int k){
+        if(!root || flag ) return false;
         
-        int curr = root->val;
-        if(mp[k-curr])  return true;
-        mp[curr]++;
+        int req = k - root->val;
+        if(mp.find(req)!=mp.end()){
+            flag = true;
+            return true;
+        }
+        mp[root->val]++;
+        bool a = helper(root->left , k);
+        bool b = helper(root->right , k);
         
-        bool l = helper(root->left , k , mp);
-        bool r = helper(root->right , k , mp);
-        
-        return l||r;
+        return a||b;
     }
 };
