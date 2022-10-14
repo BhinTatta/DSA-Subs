@@ -1,18 +1,14 @@
 class Solution {
 public:
-    int bits(int i){
-        int ans = 0;
-        while(i){
-            ans += (i&1);
-            i = i>>1;
-        }
-        return ans;
-    }
+    
     vector<int> countBits(int n) {
-        vector<int> ans(n+1);
-        for(int i = 0 ; i <= n ; i++){
-            ans[i] = bits(i);
+        vector<int> dp(n+1,0);
+
+        int pow = 1;
+        for(int i = 1 ; i <= n ; i++){
+            if(pow*2 == i) pow = i;
+            dp[i] = 1 + dp[i - pow];
         }
-        return ans;
+        return dp;
     }
 };
