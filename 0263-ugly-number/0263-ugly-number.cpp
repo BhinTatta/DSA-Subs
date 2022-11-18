@@ -1,13 +1,11 @@
 class Solution {
 public:
     bool isUgly(int n) {
-        if(n==0) return false;
-        if(n==1) return true;
-        int x = n;
-        if(n%5==0) n/=5;
-        if(n%3==0) n/=3;
-        if(n%2==0) n/=2;
-        if(x==n) return false;
-        return isUgly(n);
+        if(n==0) return 0;
+        vector<int> nums = {2,3,5};
+        for(int i : nums){
+            while(n%i==0) n/=i;
+        }
+        return n==1;
     }
 };
