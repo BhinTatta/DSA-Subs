@@ -5,16 +5,15 @@ private:
 public:
     int rob(vector<int>& nums) {
         n = nums.size();
-        memset(dp,-1,sizeof(dp));
-        return helper(nums , 0);
+        if(n==1) return nums[0];
+        memset(dp,0,sizeof(dp));
+        dp[1] = nums[0];
+        for(int i = 2 ; i <= n ; i++){
+            int rob = nums[i-1] + dp[i-2];
+            int dont = dp[i-1];
+            dp[i] = max(rob , dont);
+        }
+        return dp[n];
     }
     
-    int helper(vector<int> &nums , int i){
-        if(i>=n) return 0;
-        if(dp[i]!=-1) return dp[i];
-        int rob = nums[i] + helper(nums , i+2);
-        int dont = helper(nums , i+1);
-        
-        return dp[i] = max(rob,dont);
-    }
 };
