@@ -2,7 +2,7 @@ class Solution {
 public:
     int maxPoints(vector<vector<int>>& points) {
         int n = points.size();
-        sort(points.begin() , points.end());
+        //sort(points.begin() , points.end());
         int ans = 0;
         for(int i = 0 ; i < n ; i ++){
             double x = points[i][0] , y = points[i][1];
