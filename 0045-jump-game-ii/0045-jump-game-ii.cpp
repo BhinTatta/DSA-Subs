@@ -2,11 +2,11 @@ class Solution {
 public:
     
     int n;
-    unordered_map<int,int> mp;
+    vector<int> mp;
     int jump(vector<int>& nums) {
         int ans = INT_MAX;
         n = nums.size();
-        
+        mp.resize(n,-1);
         int x = helper(nums , 0);
         return x;
     }
@@ -16,7 +16,7 @@ public:
         if(i == n-1) return 0;
         if(nums[i]==0) return 1e6;
         
-        if(mp.find(i)!=mp.end()) return mp[i];
+        if(mp[i] != -1) return mp[i];
         
         int mini = INT_MAX;
         
