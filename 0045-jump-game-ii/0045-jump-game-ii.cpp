@@ -1,29 +1,28 @@
 class Solution {
 public:
-    
-    int n;
-    vector<int> mp;
     int jump(vector<int>& nums) {
-        int ans = INT_MAX;
-        n = nums.size();
-        mp.resize(n,-1);
-        int x = helper(nums , 0);
-        return x;
-    }
-    
-    int helper(vector<int> &nums , int i){
-        if(i >= n) return 1e6;
-        if(i == n-1) return 0;
-        if(nums[i]==0) return 1e6;
+        int n = nums.size();
+        if(n==1) return 0;
         
-        if(mp[i] != -1) return mp[i];
+        int ans = 1 , i = 0;
         
-        int mini = INT_MAX;
-        
-        for(int j = 1 ; j <= nums[i] ; j++){
-            mini =  min(mini , 1 +  helper(nums , i+j));
+        while(i < n-1){
+            //cout<<i<<" ";
+            int maxi = 0 , loc = 0;
+            int len = nums[i];
+            if(i+len >= n-1) break;
+            
+            for(int j = 1 ; j <= len ; j++){
+                
+                if(nums[i+j] + j > maxi){
+                    maxi = nums[i+j] + j;
+                    loc = i+j;
+                }
+            }
+            i = loc;
+            ans++;
         }
         
-        return mp[i] = mini;
+        return ans;
     }
 };
