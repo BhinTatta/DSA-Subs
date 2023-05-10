@@ -2,7 +2,8 @@ class Solution {
 public:
     vector<int> colorTheArray(int n, vector<vector<int>>& q) {
         int count = 0 , m = q.size();
-        vector<int> dp(n+1,0);
+        int dp[n+1];
+        memset(dp,0,sizeof(dp));
         vector<int> ans;
         
         for(int i = 0 ; i < m ; i++){
