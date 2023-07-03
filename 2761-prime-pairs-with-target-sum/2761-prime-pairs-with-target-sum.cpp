@@ -6,7 +6,7 @@ public:
     void prime(int n){
         int dp[n+1];
         memset(dp,0,sizeof(dp));
-        for(int i = 2 ; i < n/2 ; i++){
+        for(int i = 2 ; i*i < n ; i++){
             int j = 2;
             if(dp[i]) continue;
             while(i*j < n){
